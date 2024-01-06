@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:test_application/screens/on_board/carousel.dart';
+import 'package:test_application/widgets/custom_button.dart';
 
 class OnBoardScreen extends StatelessWidget {
   const OnBoardScreen({super.key});
@@ -20,6 +21,10 @@ class OnBoardScreen extends StatelessWidget {
                 height: 20,
               ),
               welcomeText(),
+              const SizedBox(
+                height: 14,
+              ),
+              bottomButton()
             ],
           ),
         ),
@@ -96,6 +101,23 @@ class OnBoardScreen extends StatelessWidget {
         fontSize: 12,
         fontWeight: FontWeight.w600,
       ),
+    );
+  }
+
+  Widget bottomButton() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        CustomButton(
+          title: 'LOGIN',
+          onPressedCallBack: () {},
+        ),
+        CustomButton(
+          title: 'REGISTER',
+          onPressedCallBack: () {},
+        )
+      ],
     );
   }
 }

@@ -118,11 +118,11 @@ class _CarouselState extends State<Carousel> {
                 margin:
                     const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
                 decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: (Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white
-                            : Colors.black)
-                        .withOpacity(_current == entry.key ? 0.9 : 0.4)),
+                  shape: BoxShape.circle,
+                  color: _current == entry.key
+                      ? const Color.fromARGB(255, 16, 80, 120)
+                      : Colors.black.withOpacity(0.4),
+                ),
               ),
             );
           }).toList(),
