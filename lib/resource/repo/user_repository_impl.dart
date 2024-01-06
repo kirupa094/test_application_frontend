@@ -33,12 +33,12 @@ class UserRepositoryImpl extends UserRepository {
     };
 
     var response = await _httpService.postFormData(
-      pathLogin,
+      pathRegister,
       data,
       headers: headers,
     );
     var status = response['status'];
-    if (status == 200) {
+    if (status == 201) {
       return response['token'];
     }
     throw NetworkError("Failed to submit");

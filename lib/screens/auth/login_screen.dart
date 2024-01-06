@@ -232,7 +232,7 @@ class _LoginScreenState extends State<LoginScreen> {
             loginData,
           )
           .then((value) => {
-                print(value),
+                userBloc.setUserToken(value),
                 setState(() {
                   isLoading = false;
                 }),

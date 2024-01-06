@@ -15,9 +15,7 @@ class HttpService {
   ]);
 
   final bool isHttps = false;
-
-  final String _baseUrl = 'http://localhost:8080/login-api/';
-
+  
   static final HttpService _httpService = HttpService._constructor();
 
   factory HttpService() => _httpService;
@@ -31,10 +29,10 @@ class HttpService {
     debugPrint("Post request called");
     try {
       final response = await _client.post(
-          Uri.parse('http://localhost:8080/login-api/login.php'),
+          Uri.parse('http://localhost:8080/login-api$path'),
           headers: headers,
           body: body);
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         var decodedBody = jsonDecode(response.body);
         return decodedBody;
       } else {
