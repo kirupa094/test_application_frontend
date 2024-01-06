@@ -1,12 +1,29 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:test_application/utils/custom_function.dart';
 import 'package:test_application/widgets/custom_button.dart';
 import 'package:test_application/widgets/custom_text_field.dart';
 import 'package:test_application/widgets/header_widget.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
+
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  late String firstName = '';
+  late String lastName = '';
+  late String email = '';
+  late String password = '';
+  late String mobileNumber = '';
+  late String countrycode = '';
+  late String referralCode = '';
+  bool isLoading = false;
+
+  final GlobalKey<FormState> _form = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -40,196 +57,270 @@ class RegisterScreen extends StatelessWidget {
                 const SizedBox(
                   height: 15,
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: CustomTextFieldWidget(
-                        hintText: 'First Name',
-                        onChanged: (value) {},
-                        obscureText: false,
-                        validator: (va) {},
-                        isPassword: false,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Expanded(
-                      child: CustomTextFieldWidget(
-                        hintText: 'Last Name',
-                        onChanged: (value) {},
-                        obscureText: false,
-                        validator: (va) {},
-                        isPassword: false,
-                      ),
-                    ),
-                  ],
-                ),
+                registerForm(),
                 const SizedBox(
                   height: 20,
                 ),
-                CustomTextFieldWidget(
-                  hintText: 'Eamil Address',
-                  textInputType: TextInputType.emailAddress,
-                  onChanged: (value) {},
+                alreadyHaveAccountText()
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget registerForm() {
+    return Form(
+      key: _form,
+      child: Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: CustomTextFieldWidget(
+                  hintText: 'First Name',
                   obscureText: false,
-                  validator: (va) {},
+                  validator: (value) {
+                    if (!CustomFunction.isNotEmpty(value!)) {
+                      return "First Name Can't be empty";
+                    }
+                    return null;
+                  },
+                  onChanged: (fName) {
+                    setState(() {
+                      firstName = fName;
+                    });
+                  },
                   isPassword: false,
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                CustomTextFieldWidget(
-                  hintText: 'Password',
-                  onChanged: (value) {},
-                  obscureText: true,
-                  validator: (va) {},
-                  isPassword: true,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      decoration: const BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            width: 1.5,
-                            color: Color.fromARGB(255, 235, 235, 228),
-                          ),
-                        ),
-                      ),
-                      child: CountryCodePicker(
-                        flagWidth: 25,
-                        onChanged: (value) {
-                          print(value.name);
-                        },
-                        showDropDownButton: true,
-                        textStyle: const TextStyle(color: Colors.black),
-                        initialSelection: 'United Kingdom',
-                        showCountryOnly: false,
-                        showOnlyCountryWhenClosed: false,
-                        alignLeft: false,
-                        padding: const EdgeInsets.all(0),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Expanded(
-                      child: CustomTextFieldWidget(
-                        textInputType: TextInputType.number,
-                        hintText: 'Mobile',
-                        onChanged: (value) {},
-                        obscureText: false,
-                        validator: (va) {},
-                        isPassword: false,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                CustomTextFieldWidget(
-                  hintText: 'Referral Code',
-                  onChanged: (value) {},
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              Expanded(
+                child: CustomTextFieldWidget(
+                  hintText: 'Last Name',
                   obscureText: false,
-                  validator: (va) {},
                   isPassword: false,
+                  validator: (value) {
+                    if (!CustomFunction.isNotEmpty(value!)) {
+                      return "Last Name Can't be empty";
+                    }
+                    return null;
+                  },
+                  onChanged: (fName) {
+                    setState(() {
+                      lastName = fName;
+                    });
+                  },
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                RichText(
-                  textAlign: TextAlign.left,
-                  text: const TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'By Clicking Sign up You agree to the following ',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xFF5D5D5D),
-                        ),
-                      ),
-                      TextSpan(
-                        text: 'Terms and Conditions ',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Color.fromARGB(255, 16, 80, 120),
-                        ),
-                      ),
-                      TextSpan(
-                        text: 'without reservation.',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xFF5D5D5D),
-                        ),
-                      ),
-                    ],
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          CustomTextFieldWidget(
+            hintText: 'Eamil Address',
+            textInputType: TextInputType.emailAddress,
+            obscureText: false,
+            isPassword: false,
+            validator: (value) {
+              if (!CustomFunction.isNotEmpty(value!)) {
+                return "Email Can't be empty";
+              } else if (!CustomFunction.isValidEmail(value)) {
+                return "Enter valid email";
+              }
+              return null;
+            },
+            onChanged: (value) {
+              setState(() {
+                email = value;
+              });
+            },
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          CustomTextFieldWidget(
+            hintText: 'Password',
+            obscureText: true,
+            isPassword: true,
+            validator: (value) {
+              if (!CustomFunction.isNotEmpty(value!)) {
+                return "Password Can't be empty";
+              }
+              return null;
+            },
+            onChanged: (value) {
+              setState(() {
+                password = value;
+              });
+            },
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                alignment: Alignment.centerLeft,
+                decoration: const BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      width: 1.5,
+                      color: Color.fromARGB(255, 235, 235, 228),
+                    ),
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
+                child: CountryCodePicker(
+                  flagWidth: 25,
+                  onChanged: (value) {
+                    setState(() {
+                      countrycode = value.code!;
+                    });
+                  },
+                  showDropDownButton: true,
+                  textStyle: const TextStyle(color: Colors.black),
+                  initialSelection: 'United Kingdom',
+                  showCountryOnly: false,
+                  showOnlyCountryWhenClosed: false,
+                  alignLeft: false,
+                  padding: const EdgeInsets.all(0),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    CustomButton(
-                      isIcon: true,
-                      title: 'Register',
-                      onPressedCallBack: () {},
-                    ),
-                  ],
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              Expanded(
+                child: CustomTextFieldWidget(
+                  textInputType: TextInputType.number,
+                  hintText: 'Mobile',
+                  obscureText: false,
+                  isPassword: false,
+                  validator: (value) {
+                    if (!CustomFunction.isNotEmpty(value!)) {
+                      return "Mobile Number Can't be empty";
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      mobileNumber = value;
+                    });
+                  },
                 ),
-                const SizedBox(
-                  height: 20,
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          CustomTextFieldWidget(
+            hintText: 'Referral Code',
+            obscureText: false,
+            isPassword: false,
+            validator: (value) {
+              if (!CustomFunction.isNotEmpty(value!)) {
+                return "Referral Code Can't be empty";
+              }
+              return null;
+            },
+            onChanged: (value) {
+              setState(() {
+                referralCode = value;
+              });
+            },
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          RichText(
+            textAlign: TextAlign.left,
+            text: const TextSpan(
+              children: [
+                TextSpan(
+                  text: 'By Clicking Sign up You agree to the following ',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Color(0xFF5D5D5D),
+                  ),
                 ),
-                Center(
-                  child: RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                      children: [
-                        const TextSpan(
-                          text: 'Already have an account? ',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0xFF5D5D5D),
-                          ),
-                        ),
-                        TextSpan(
-                          text: 'Login ',
-                          recognizer: TapGestureRecognizer()..onTap = () {},
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Color.fromARGB(255, 16, 80, 120),
-                          ),
-                        ),
-                        const TextSpan(
-                          text: 'now',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0xFF5D5D5D),
-                          ),
-                        ),
-                      ],
-                    ),
+                TextSpan(
+                  text: 'Terms and Conditions ',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Color.fromARGB(255, 16, 80, 120),
+                  ),
+                ),
+                TextSpan(
+                  text: 'without reservation.',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Color(0xFF5D5D5D),
                   ),
                 ),
               ],
             ),
           ),
+          const SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              CustomButton(
+                isIcon: true,
+                title: 'Register',
+                onPressedCallBack: () => {
+                  if (_form.currentState!.validate()) {print('Code')}
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget alreadyHaveAccountText() {
+    return Center(
+      child: RichText(
+        textAlign: TextAlign.center,
+        text: TextSpan(
+          children: [
+            const TextSpan(
+              text: 'Already have an account? ',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: Color(0xFF5D5D5D),
+              ),
+            ),
+            TextSpan(
+              text: 'Login ',
+              recognizer: TapGestureRecognizer()..onTap = () {},
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Color.fromARGB(255, 16, 80, 120),
+              ),
+            ),
+            const TextSpan(
+              text: 'now',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: Color(0xFF5D5D5D),
+              ),
+            ),
+          ],
         ),
       ),
     );
