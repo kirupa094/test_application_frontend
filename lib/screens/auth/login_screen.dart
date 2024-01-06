@@ -1,9 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:test_application/resource/provider/provider.dart';
 import 'package:test_application/screens/auth/register_screen.dart';
 import 'package:test_application/screens/on_board/on_board_screen.dart';
+import 'package:test_application/screens/profile/profile_screen.dart';
 import 'package:test_application/utils/custom_function.dart';
 import 'package:test_application/widgets/custom_button.dart';
+import 'package:test_application/widgets/custom_snack_bar.dart';
 import 'package:test_application/widgets/custom_text_field.dart';
 import 'package:test_application/widgets/header_widget.dart';
 
@@ -76,6 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           CustomTextFieldWidget(
             hintText: 'Phone number or email',
+            textInputType: TextInputType.number,
             obscureText: false,
             isPassword: false,
             validator: (value) {
@@ -148,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 isIcon: true,
                 title: 'SIGN IN',
                 onPressedCallBack: () => {
-                  if (_form.currentState!.validate()) {print('Code')}
+                  if (_form.currentState!.validate()) {callLoginApi()}
                 },
               ),
             ],
@@ -207,6 +211,55 @@ class _LoginScreenState extends State<LoginScreen> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => const OnBoardScreen()),
+    );
+  }
+
+  void callLoginApi() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    final userBloc = Provider.of(context).userBloc;
+
+    Map<String, String> loginData = {
+      'email': email,
+      'password': password,
+    };
+
+    try {
+      await userBloc
+          .callLoginApi(
+            loginData,
+          )
+          .then((value) => {
+                print(value),
+                setState(() {
+                  isLoading = false;
+                }),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ProfileScreen(),
+                  ),
+                ),
+              });
+    } catch (e) {
+      debugPrint('Error: $e');
+      setState(() {
+        isLoading = false;
+      });
+      _showValidationSnackBar(e.toString());
+    }
+  }
+
+  void _showValidationSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        content: CustomSnackBar(error: message),
+        duration: const Duration(seconds: 2),
+      ),
     );
   }
 }

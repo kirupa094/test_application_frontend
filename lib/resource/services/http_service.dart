@@ -3,32 +3,37 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
+import 'package:http_interceptor/http_interceptor.dart';
 import 'package:test_application/resource/services/errors/error_response.dart';
 import 'package:test_application/resource/services/errors/network_error.dart';
 import 'package:test_application/resource/services/errors/request_error.dart';
+import 'package:test_application/resource/services/logging_interceptor.dart';
 
 class HttpService {
-  final Client _client;
+  final Client _client = InterceptedClient.build(interceptors: [
+    LoggingInterceptor(),
+  ]);
 
-  final bool isHttps = true;
+  final bool isHttps = false;
 
-  final String _baseUrl = 'http://localhost/login-api';
+  final String _baseUrl = 'http://localhost:8080/login-api/';
 
   static final HttpService _httpService = HttpService._constructor();
 
   factory HttpService() => _httpService;
   final String _networkErrorMsg = 'Please check your internet connection';
 
-  HttpService._constructor() : _client = Client();
+  HttpService._constructor();
 
   Future<Map<String, dynamic>> postFormData(
       String path, Map<String, dynamic> body,
       {Map<String, String>? headers}) async {
     debugPrint("Post request called");
     try {
-      final response =
-          await _client.post(_getUrl(path), headers: headers, body: body);
-
+      final response = await _client.post(
+          Uri.parse('http://localhost:8080/login-api/login.php'),
+          headers: headers,
+          body: body);
       if (response.statusCode == 200) {
         var decodedBody = jsonDecode(response.body);
         return decodedBody;
@@ -38,7 +43,7 @@ class HttpService {
       }
     } on SocketException catch (e) {
       debugPrint("$e");
-      throw NetworkError("Socket Exception");
+      throw NetworkError(_networkErrorMsg);
     } on ErrorResponse catch (e) {
       debugPrint("on ErrorResponse catch $e");
       rethrow;
@@ -55,17 +60,5 @@ class HttpService {
       return 'Your network connection is unstable. Please try again.';
     }
     return error;
-  }
-
-  Uri _getUrl(String path, [Map<String, String>? queryParameters]) {
-    if (isHttps) {
-      return Uri.https(_baseUrl, _getPath(path), queryParameters);
-    } else {
-      return Uri.http(_baseUrl, _getPath(path), queryParameters);
-    }
-  }
-
-  String _getPath(String path) {
-    return path;
   }
 }

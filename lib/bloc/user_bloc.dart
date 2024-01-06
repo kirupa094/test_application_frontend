@@ -21,15 +21,13 @@ class UserBloc {
     _userToken = token;
   }
 
-  Future<dynamic> callLoginApi(
-      String token, String lang, Map<String, String> data, String id) async {
+  Future<dynamic> callLoginApi(Map<String, String> data) async {
     return _userRepository.loginApiCall(
       data,
     );
   }
 
-  Future<dynamic> callRegisterAPi(
-      String token, String lang, Map<String, String> data, String id) async {
+  Future<dynamic> callRegisterAPi(Map<String, String> data) async {
     return _userRepository.registerApiCall(
       data,
     );

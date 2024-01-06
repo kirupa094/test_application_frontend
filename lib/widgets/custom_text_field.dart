@@ -43,7 +43,7 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
         fontSize: 14,
         fontWeight: FontWeight.w400,
       ),
-      keyboardType: TextInputType.text,
+      keyboardType: widget.textInputType,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(0),
         errorMaxLines: 3,

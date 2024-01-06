@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test_application/resource/provider/provider.dart';
 import 'package:test_application/screens/on_board/on_board_screen.dart';
 
 void main() {
@@ -11,15 +12,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Test App',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return Provider(
+      child: MaterialApp(
+        title: 'Test App',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: const OnBoardScreen(),
       ),
-      home: const OnBoardScreen(),
     );
   }
 }
-

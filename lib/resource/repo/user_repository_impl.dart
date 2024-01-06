@@ -11,24 +11,26 @@ class UserRepositoryImpl extends UserRepository {
 
   @override
   Future loginApiCall(Map<String, String> data) async {
-    Map<String, String> headers = {'Accept': 'application/json'};
-
+    Map<String, String> headers = {
+      'Accept': 'application/json',
+    };
     var response = await _httpService.postFormData(
       pathLogin,
       data,
       headers: headers,
     );
     var status = response['status'];
-    if (status== 200) {
-      print(response['token']);
-      return 'tok';
+    if (status == 200) {
+      return response['token'];
     }
     throw NetworkError("Failed to submit");
   }
 
   @override
   Future registerApiCall(Map<String, String> data) async {
-        Map<String, String> headers = {'Accept': 'application/json'};
+    Map<String, String> headers = {
+      'Accept': 'application/json',
+    };
 
     var response = await _httpService.postFormData(
       pathLogin,
@@ -36,11 +38,9 @@ class UserRepositoryImpl extends UserRepository {
       headers: headers,
     );
     var status = response['status'];
-    if (status== 200) {
-      print(response['token']);
-      return 'tok';
+    if (status == 200) {
+      return response['token'];
     }
     throw NetworkError("Failed to submit");
   }
-
 }
