@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test_application/screens/auth/register_screen.dart';
 import 'package:test_application/screens/on_board/carousel.dart';
 import 'package:test_application/widgets/custom_button.dart';
 
@@ -24,7 +25,7 @@ class OnBoardScreen extends StatelessWidget {
               const SizedBox(
                 height: 14,
               ),
-              bottomButton()
+              bottomButton(context)
             ],
           ),
         ),
@@ -104,7 +105,7 @@ class OnBoardScreen extends StatelessWidget {
     );
   }
 
-  Widget bottomButton() {
+  Widget bottomButton(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -115,9 +116,16 @@ class OnBoardScreen extends StatelessWidget {
         ),
         CustomButton(
           title: 'REGISTER',
-          onPressedCallBack: () {},
+          onPressedCallBack: () => navigateToRegisterScreen(context),
         )
       ],
+    );
+  }
+
+  void navigateToRegisterScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) =>  const RegisterScreen()),
     );
   }
 }

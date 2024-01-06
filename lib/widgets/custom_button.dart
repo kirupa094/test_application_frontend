@@ -13,7 +13,9 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: onPressedCallBack(),
+      onPressed: () {
+        onPressedCallBack();
+      },
       child: Container(
         decoration: ShapeDecoration(
           color: const Color.fromARGB(255, 16, 80, 120),
