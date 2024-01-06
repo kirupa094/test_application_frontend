@@ -1,3 +1,6 @@
+import 'package:test_application/resource/repo/user_repository.dart';
+import 'package:test_application/resource/repo/user_repository_impl.dart';
+
 class UserBloc {
   String _userToken = '';
 
@@ -5,7 +8,9 @@ class UserBloc {
 
   factory UserBloc() => _bloc;
 
-  UserBloc._constructor();
+  final UserRepository _userRepository;
+
+  UserBloc._constructor() : _userRepository = UserRepositoryImpl();
 
   //User Token
   String getUserToken() {
@@ -15,5 +20,18 @@ class UserBloc {
   setUserToken(String token) {
     _userToken = token;
   }
-  
+
+  Future<dynamic> callLoginApi(
+      String token, String lang, Map<String, String> data, String id) async {
+    return _userRepository.loginApiCall(
+      data,
+    );
+  }
+
+  Future<dynamic> callRegisterAPi(
+      String token, String lang, Map<String, String> data, String id) async {
+    return _userRepository.registerApiCall(
+      data,
+    );
+  }
 }
