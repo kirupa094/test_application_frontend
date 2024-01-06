@@ -63,7 +63,7 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
             : null,
         border: const UnderlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(0)),
-          borderSide: BorderSide(color: Colors.teal, width: 2.0),
+          borderSide: BorderSide(color: Color.fromARGB(255, 235, 235, 228), width: 2.0),
         ),
         filled: true,
         fillColor: Colors.white,
@@ -74,7 +74,7 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
           fontWeight: FontWeight.w400,
         ),
         focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: Color(0xFF5D5D5D), width: 2.0),
+          borderSide: BorderSide(color: Color.fromARGB(255, 235, 235, 228), width: 2.0),
           borderRadius: BorderRadius.all(Radius.circular(0)),
         ),
         errorBorder: const UnderlineInputBorder(
@@ -88,7 +88,7 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
         ),
         enabledBorder: const UnderlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(0)),
-          borderSide: BorderSide(color: Color(0xFF5D5D5D), width: 2.0),
+          borderSide: BorderSide(color: Color.fromARGB(255, 235, 235, 228), width: 2.0),
         ),
       ),
     );
