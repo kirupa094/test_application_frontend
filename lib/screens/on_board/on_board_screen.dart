@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test_application/screens/auth/login_screen.dart';
 import 'package:test_application/screens/auth/register_screen.dart';
 import 'package:test_application/screens/on_board/carousel.dart';
 import 'package:test_application/widgets/custom_button.dart';
@@ -112,7 +113,7 @@ class OnBoardScreen extends StatelessWidget {
       children: [
         CustomButton(
           title: 'LOGIN',
-          onPressedCallBack: () {},
+          onPressedCallBack: () => navigateToLoginScreen(context),
         ),
         CustomButton(
           title: 'REGISTER',
@@ -125,7 +126,14 @@ class OnBoardScreen extends StatelessWidget {
   void navigateToRegisterScreen(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) =>  const RegisterScreen()),
+      MaterialPageRoute(builder: (context) => const RegisterScreen()),
+    );
+  }
+
+  void navigateToLoginScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
     );
   }
 }

@@ -1,6 +1,8 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:test_application/screens/auth/login_screen.dart';
+import 'package:test_application/screens/on_board/on_board_screen.dart';
 import 'package:test_application/utils/custom_function.dart';
 import 'package:test_application/widgets/custom_button.dart';
 import 'package:test_application/widgets/custom_text_field.dart';
@@ -36,9 +38,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           automaticallyImplyLeading: false,
           actions: [
             IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              onPressed: () => navigateToOnboardScreen(context),
               padding:
                   const EdgeInsets.only(right: 15, left: 0, top: 15, bottom: 0),
               color: Colors.black,
@@ -123,7 +123,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             height: 20,
           ),
           CustomTextFieldWidget(
-            hintText: 'Eamil Address',
+            hintText: 'Email Address',
             textInputType: TextInputType.emailAddress,
             obscureText: false,
             isPassword: false,
@@ -277,7 +277,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             children: [
               CustomButton(
                 isIcon: true,
-                title: 'Register',
+                title: 'REGISTER',
                 onPressedCallBack: () => {
                   if (_form.currentState!.validate()) {print('Code')}
                 },
@@ -305,7 +305,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             TextSpan(
               text: 'Login ',
-              recognizer: TapGestureRecognizer()..onTap = () {},
+              recognizer: TapGestureRecognizer()
+                ..onTap = () => navigateToLoginScreen(context),
               style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
@@ -323,6 +324,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  void navigateToLoginScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+    );
+  }
+
+  void navigateToOnboardScreen(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const OnBoardScreen()),
     );
   }
 }
