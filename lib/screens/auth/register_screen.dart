@@ -278,12 +278,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              CustomButton(
-                isIcon: true,
-                title: 'REGISTER',
-                onPressedCallBack: () => {
-                  if (_form.currentState!.validate()) {callRegisterApi()}
-                },
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  CustomButton(
+                    isIcon: true,
+                    title: 'REGISTER',
+                    onPressedCallBack: () => {
+                      if (_form.currentState!.validate()) {callRegisterApi()}
+                    },
+                  ),
+                  Positioned(
+                    child: isLoading
+                        ? const Center(
+                            child: SizedBox(
+                              width: 25,
+                              height: 25,
+                              child: CircularProgressIndicator(),
+                            ),
+                          )
+                        : const SizedBox.shrink(),
+                  )
+                ],
               ),
             ],
           ),

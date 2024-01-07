@@ -79,7 +79,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           CustomTextFieldWidget(
             hintText: 'Phone number or email',
-            textInputType: TextInputType.number,
             obscureText: false,
             isPassword: false,
             validator: (value) {
@@ -148,12 +147,28 @@ class _LoginScreenState extends State<LoginScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              CustomButton(
-                isIcon: true,
-                title: 'SIGN IN',
-                onPressedCallBack: () => {
-                  if (_form.currentState!.validate()) {callLoginApi()}
-                },
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  CustomButton(
+                    isIcon: true,
+                    title: 'SIGN IN',
+                    onPressedCallBack: () => {
+                      if (_form.currentState!.validate()) {callLoginApi()}
+                    },
+                  ),
+                  Positioned(
+                    child: isLoading
+                        ? const Center(
+                            child: SizedBox(
+                              width: 25,
+                              height: 25,
+                              child: CircularProgressIndicator(),
+                            ),
+                          )
+                        : const SizedBox.shrink(),
+                  )
+                ],
               ),
             ],
           ),
