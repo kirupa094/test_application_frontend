@@ -370,7 +370,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 setState(() {
                   isLoading = false;
                 }),
-                userBloc.getProfileInfo(userBloc.getUserToken()),
+                userBloc.getProfileInfo(value),
                 Navigator.push(
                   context,
                   MaterialPageRoute(
