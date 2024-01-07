@@ -183,7 +183,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   flagWidth: 25,
                   onChanged: (value) {
                     setState(() {
-                      countrycode = value.code!;
+                      countrycode = value.toString();
                     });
                   },
                   showDropDownButton: true,
@@ -350,7 +350,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
 
     final userBloc = Provider.of(context).userBloc;
-
     Map<String, String> registerData = {
       'email': email,
       'password': password,
@@ -358,6 +357,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       "last_name": lastName,
       "mobile_number": mobileNumber,
       "referral_code": referralCode,
+      "mobile_code": countrycode
     };
 
     try {

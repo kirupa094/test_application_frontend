@@ -24,9 +24,7 @@ class ProfileScreen extends StatelessWidget {
             'Profile Info',
             textAlign: TextAlign.center,
             style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.w500),
+                color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500),
           ),
         ),
         body: Container(
@@ -63,9 +61,9 @@ class ProfileScreen extends StatelessWidget {
                           const SizedBox(
                             width: 8,
                           ),
-                          const Text(
-                            'Hi!, Kiruba Karan',
-                            style: TextStyle(
+                          Text(
+                            'Hi!, ${profileModel.firstName} ${profileModel.lastName}',
+                            style: const TextStyle(
                               color: Colors.black,
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
@@ -76,20 +74,20 @@ class ProfileScreen extends StatelessWidget {
                       const SizedBox(
                         height: 15,
                       ),
-                      const Row(
+                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Padding(
+                          const Padding(
                             padding: EdgeInsets.all(8.0),
                             child: Icon(Icons.email,
                                 color: Color.fromARGB(255, 16, 80, 120)),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 8,
                           ),
                           Text(
-                            'kirupakaran094@gmail.com',
-                            style: TextStyle(
+                            profileModel.email,
+                            style: const TextStyle(
                               color: Colors.black,
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
@@ -100,20 +98,20 @@ class ProfileScreen extends StatelessWidget {
                       const SizedBox(
                         height: 15,
                       ),
-                      const Row(
+                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Padding(
+                          const Padding(
                             padding: EdgeInsets.all(8.0),
                             child: Icon(Icons.phone,
                                 color: Color.fromARGB(255, 16, 80, 120)),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 8,
                           ),
                           Text(
-                            '+94768716424',
-                            style: TextStyle(
+                            '${profileModel.mobileCode}${profileModel.mobileNumber}',
+                            style: const TextStyle(
                               color: Colors.black,
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
