@@ -1,3 +1,4 @@
+import 'package:test_application/model/profile_model.dart';
 import 'package:test_application/resource/repo/user_repository.dart';
 import 'package:test_application/resource/services/errors/network_error.dart';
 import 'package:test_application/resource/services/http_service.dart';
@@ -8,6 +9,7 @@ class UserRepositoryImpl extends UserRepository {
   UserRepositoryImpl() : _httpService = HttpService();
   final String pathLogin = '/login.php';
   final String pathRegister = '/register.php';
+  final String pathGetProfile = '/home.php';
 
   @override
   Future loginApiCall(Map<String, String> data) async {
@@ -42,5 +44,20 @@ class UserRepositoryImpl extends UserRepository {
       return response['token'];
     }
     throw NetworkError("Failed to submit");
+  }
+
+  @override
+  Future<ProfileModel> getProfileInfo(String token) async {
+    Map<String, String> headers = {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json',
+    };
+    var response = await _httpService.get(pathGetProfile, headers: headers);
+    var success = response['status'];
+    if (success == 200) {
+      var data = response;
+      return ProfileModel.fromParsedJson(data);
+    }
+    throw NetworkError("Fetching Data failed Error: ${response['message']}");
   }
 }

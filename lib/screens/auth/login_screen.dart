@@ -236,6 +236,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 setState(() {
                   isLoading = false;
                 }),
+                userBloc.getProfileInfo(value),
                 Navigator.push(
                   context,
                   MaterialPageRoute(

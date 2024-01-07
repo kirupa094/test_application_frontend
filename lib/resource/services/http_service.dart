@@ -7,6 +7,7 @@ import 'package:http_interceptor/http_interceptor.dart';
 import 'package:test_application/resource/services/errors/error_response.dart';
 import 'package:test_application/resource/services/errors/network_error.dart';
 import 'package:test_application/resource/services/errors/request_error.dart';
+import 'package:test_application/resource/services/errors/unauthenticated_error_response.dart';
 import 'package:test_application/resource/services/logging_interceptor.dart';
 
 class HttpService {
@@ -15,7 +16,7 @@ class HttpService {
   ]);
 
   final bool isHttps = false;
-  
+
   static final HttpService _httpService = HttpService._constructor();
 
   factory HttpService() => _httpService;
@@ -44,6 +45,47 @@ class HttpService {
       throw NetworkError(_networkErrorMsg);
     } on ErrorResponse catch (e) {
       debugPrint("on ErrorResponse catch $e");
+      rethrow;
+    } catch (e) {
+      debugPrint("on Catch $e");
+      throw RequestError(handleError(e.toString()));
+    }
+  }
+
+  Future<Map<String, dynamic>> get(String path,
+      {Map<String, String>? queryParams, Map<String, String>? headers}) async {
+    debugPrint("Get request called");
+    try {
+      final response = await _client.get(
+        Uri.parse('http://localhost:8080/login-api$path'),
+        headers: headers,
+      );
+      if (response.statusCode == 200) {
+        var decodedBody = jsonDecode(response.body);
+        debugPrint("Response success : body type : ${decodedBody.runtimeType}");
+        return decodedBody;
+      } else {
+        debugPrint("Error code : ${response.request}");
+        debugPrint("Error code : ${response.statusCode}");
+        debugPrint("Error Body : ${response.body}");
+        debugPrint("Error Body is Empty : ${response.body.isEmpty}");
+
+        Map<String, dynamic> map = jsonDecode(response.body);
+
+        if (response.statusCode == 404) {
+          throw UnAuthenticatedErrorResponse.fromJson(map);
+        } else {
+          throw ErrorResponse.fromJson(map);
+        }
+      }
+    } on SocketException catch (e) {
+      debugPrint("Socket exception $e");
+      throw NetworkError(_networkErrorMsg);
+    } on ErrorResponse catch (e) {
+      debugPrint("on ErrorResponse catch $e");
+      rethrow;
+    } on UnAuthenticatedErrorResponse catch (e) {
+      debugPrint("on UnAuthenticatedErrorResponse catch $e");
       rethrow;
     } catch (e) {
       debugPrint("on Catch $e");
