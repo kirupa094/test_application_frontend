@@ -10,6 +10,7 @@ class UserRepositoryImpl extends UserRepository {
   final String pathLogin = '/login.php';
   final String pathRegister = '/register.php';
   final String pathGetProfile = '/home.php';
+  final String pathUpdateProfile = '/update.php';
 
   @override
   Future loginApiCall(Map<String, String> data) async {
@@ -59,5 +60,23 @@ class UserRepositoryImpl extends UserRepository {
       return ProfileModel.fromParsedJson(data);
     }
     throw NetworkError("Fetching Data failed Error: ${response['message']}");
+  }
+
+  @override
+  Future updateProfileApiCall(Map<String, String> data, String token) async {
+    Map<String, String> headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+    var response = await _httpService.postFormData(
+     pathUpdateProfile,
+      data,
+      headers: headers,
+    );
+    var status = response['status'];
+    if (status == 200) {
+      return response['token'];
+    }
+    throw NetworkError("Failed to submit");
   }
 }

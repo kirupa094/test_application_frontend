@@ -46,8 +46,7 @@ class UserBloc {
   getProfileInfo(String token) async {
     _profileInfoController.sink.add(LoadingUIState());
     try {
-      var result =
-          await _userRepository.getProfileInfo(token);
+      var result = await _userRepository.getProfileInfo(token);
       _profileInfoController.sink.add(ResultUIState(result));
     } on UnAuthenticatedErrorResponse catch (e) {
       _profileInfoController.sink.add(UnAuthenticatedUIState(e.message));
@@ -58,5 +57,8 @@ class UserBloc {
     }
   }
 
-
+  Future<dynamic> updateProfileApiCall(
+      Map<String, String> data, String token) async {
+    return _userRepository.updateProfileApiCall(data, token);
+  }
 }
